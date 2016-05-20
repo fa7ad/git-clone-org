@@ -22,10 +22,10 @@ def get_repos(url=None, username=None, password=None):
         json_decoded = response.json()
         try:
             repos = [item['clone_url'] for item in json_decoded]
+            return repos
         except:
             print("Possibly wrong password")
             return False
-        return repos
     else:
         return False
 
