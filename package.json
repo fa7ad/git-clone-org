@@ -1,0 +1,27 @@
+{
+  "name": "git-clone-org",
+  "version": "1.0.0",
+  "description": "Clone all the repos from a github organization",
+  "main": "bin/cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "git-clone-org": "bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fa7ad/git-clone-org.git"
+  },
+  "author": "Fahad Hossain <8bit.demoncoder@gmail.com> (http://fahad.gq)",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/fa7ad/git-clone-org/issues"
+  },
+  "homepage": "https://github.com/fa7ad/git-clone-org#readme",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "prompt": "^1.0.0",
+    "request": "^2.72.0"
+  }
+}

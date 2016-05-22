@@ -11,4 +11,6 @@ where **myawesometeam** is the github organization.
 _Note: This script is very rudimentary, make a PR if you wanna add some cool feature._
 
 ## Installation:
-On \*nix systems you can just run `bash install.sh`. No idea about windows :3
+```bash
+[sudo] npm i -g git-clone-org
+```
