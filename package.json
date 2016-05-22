@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/fa7ad/git-clone-org/issues"
   },
-  "homepage": "https://github.com/fa7ad/git-clone-org#readme",
+  "homepage": "https://github.com/fa7ad/git-clone-org/tree/node#readme",
   "dependencies": {
     "minimist": "^1.2.0",
     "prompt": "^1.0.0",
