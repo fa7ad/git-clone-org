@@ -1,6 +1,6 @@
 {
   "name": "git-clone-org",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clone all the repos from a github organization",
   "main": "bin/cli.js",
   "scripts": {

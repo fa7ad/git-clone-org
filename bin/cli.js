@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const request = require('request');
 const prompt = require('prompt');
 const argv = require('minimist')(process.argv.slice(2));
