@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const request = require('request');
-const prompt = require('prompt');
 const argv = require('minimist')(process.argv.slice(2));
 const spawn = require('child_process').spawn;
+const inquirer = require('inquirer');
 
 
 function git_url(org_name) {
@@ -11,9 +11,7 @@ function git_url(org_name) {
 
 
 function get_repos(username, password, org_name, cb) {
-  let params, urls;
-  urls = [];
-  params = {
+  let params = {
     url: git_url(org_name),
     auth: {
       user: username,
@@ -25,14 +23,28 @@ function get_repos(username, password, org_name, cb) {
     }
   };
   request(params, function(err, res, body) {
-    if (body) {
-    let i, len, obj;
-    for (i = 0, len = body.length; i < len; i++) {
-      obj = body[i];
-      urls.push(obj['clone_url']);
+    if (body !== undefined) {
+      if(body['message']){
+        console.error(body.message);
+      }else{
+        let i, len, obj;
+        let urls = [];
+        for (i = 0, len = body.length; i < len; i++) {
+          obj = body[i];
+          urls.push(obj['clone_url']);
+        }
+        inquirer.prompt([{
+            name: 'confirm',
+            message: 'Got ' + urls.length + ' repos. Confirm clone',
+            default: true,
+            type: 'confirm'
+          }]).then(function(res) {
+            if(res.confirm){
+              cb(urls);
+            }
+          });
+      }
     }
-    cb(urls);
-  }
   });
 };
 
@@ -41,29 +53,27 @@ function git_clone_org(org, callback, callback_final) {
   let options = [
     {
       name: 'username',
-      description: 'Username for github.com',
-      required: true
+      message: 'Username for github.com',
+      type: 'input'
     }, {
       name: 'password',
-      description: 'Password (will not be echoed)',
-      hidden: true,
-      required: true
+      message: 'Password (will not be echoed)',
+      type: 'password'
     }
   ];
   if (!org){
     options.push({
       name: 'org',
-      description: 'Name of GitHub organization',
-      required: true
+      message: 'Name of GitHub organization',
+      type: 'input'
     })
   }
-  prompt.start();
-  prompt.get(options, function(err, res) {
+  inquirer.prompt(options).then(function(res) {
     if(res){
       let auth = {};
       auth.username = res.username;
       auth.password = res.password;
-      auth.org = org || auth.org;
+      auth.org = org || res.org;
       callback(auth.username, auth.password, auth.org, callback_final);
     }
   });
