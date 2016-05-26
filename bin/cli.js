@@ -19,13 +19,14 @@ function get_clone_repos(info) {
     },
     headers: {
       'User-Agent': 'Git Clone Org'
+    },
+    params: {
+      'per_page': 100,
+      'page': info.page || 1
     }
   };
 
-  let fetcher = axios.create();
-
-  fetcher
-    .request(http_params)
+  axios(http_params)
     .then(function(response) {
       if(response['data']){
         if (response.data.message){
@@ -34,6 +35,18 @@ function get_clone_repos(info) {
           let links = [];
           response.data.forEach(repo => links.push(repo['clone_url']));
           confirm_clone(links);
+          if(response.headers.link){
+            let link_heads = response.headers.link.split(',');
+            link_heads.forEach(link => {
+              if (/next/.test(link)){
+                let pageRegex = link.match(/&page=(\d+)/);
+                if(pageRegex && pageRegex.length > 1){
+                  info.page = pageRegex[1];
+                  get_clone_repos(info);
+                }
+              }
+            });
+          }
         }
       }
     });
@@ -53,7 +66,7 @@ function confirm_clone(links) {
       if(res.confirm)
         links.forEach(link => clone(link));
       else
-        console.log('Clone cancelled!')
+        console.log('Clone cancelled!');
     });
   return confirm;
 }
