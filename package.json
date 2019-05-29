@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/fa7ad/git-clone-org/tree/node#readme",
   "dependencies": {
-    "axios": "^0.11.1",
-    "inquirer": "^1.0.2",
+    "axios": "^0.18.0",
+    "inquirer": "^6.3.1",
     "minimist": "^1.2.0"
   },
   "engines": {
